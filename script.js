@@ -11,6 +11,118 @@ const shell = document.querySelector(".site-shell");
 const menuButton = document.querySelector(".menu-button");
 const navigation = document.querySelector(".site-nav");
 
+const heroProjects = [
+  {
+    key: "yingxi",
+    title: "《影戏》",
+    status: "可玩 Demo 已完成",
+    image: "./assets/yingxi-main.jpg",
+    alt: "《影戏》主菜单与角色战斗画面",
+    showcase: "#showcase"
+  },
+  {
+    key: "shenggu",
+    title: "《社鼓神像》",
+    status: "可玩 Demo 已完成",
+    image: "./assets/shenggu-poster.webp",
+    alt: "《社鼓神像》官方宣传图",
+    showcase: "#shenggu-showcase"
+  }
+];
+
+const heroVisual = document.querySelector(".hero-visual");
+const heroMainImage = document.querySelector("[data-hero-main-image]");
+const heroMainStatus = document.querySelector("[data-hero-main-status]");
+const heroMainTitle = document.querySelector("[data-hero-main-title]");
+const heroSecondary = document.querySelector(".hero-secondary-shot");
+const heroSecondaryImage = document.querySelector("[data-hero-secondary-image]");
+const heroSecondaryStatus = document.querySelector("[data-hero-secondary-status]");
+const heroSecondaryTitle = document.querySelector("[data-hero-secondary-title]");
+const heroShowcaseLink = document.querySelector("[data-hero-showcase-link]");
+const heroLinkLabel = document.querySelector("[data-hero-link-label]");
+const heroRotationButton = document.querySelector(".hero-rotation-toggle");
+const heroRotationMessage = document.querySelector("[data-hero-rotation-message]");
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const heroRotationDelay = 7000;
+let activeHeroProject = 0;
+let heroRotationTimer;
+let heroRotationPaused = false;
+
+function renderHeroProject(index, animate = true) {
+  if (!heroVisual || !heroMainImage || !heroSecondaryImage) return;
+  activeHeroProject = index;
+  const active = heroProjects[index];
+  const secondary = heroProjects[(index + 1) % heroProjects.length];
+  heroVisual.dataset.activeProject = active.key;
+  heroMainImage.src = active.image;
+  heroMainImage.alt = active.alt;
+  heroMainStatus.textContent = active.status;
+  heroMainTitle.textContent = active.title;
+  heroSecondaryImage.src = secondary.image;
+  heroSecondaryImage.alt = secondary.alt;
+  heroSecondaryStatus.textContent = secondary.status;
+  heroSecondaryTitle.textContent = secondary.title;
+  heroSecondary.setAttribute("aria-label", "将" + secondary.title + "切换到主画面");
+  heroShowcaseLink.href = active.showcase;
+  heroLinkLabel.textContent = "播放" + active.title + "宣传片";
+  if (animate) {
+    heroVisual.classList.remove("hero-refresh");
+    window.requestAnimationFrame(() => heroVisual.classList.add("hero-refresh"));
+    window.setTimeout(() => heroVisual.classList.remove("hero-refresh"), 500);
+  }
+}
+
+function stopHeroRotation() {
+  window.clearInterval(heroRotationTimer);
+  heroRotationTimer = undefined;
+}
+
+function startHeroRotation() {
+  stopHeroRotation();
+  if (reducedMotion || heroRotationPaused || document.hidden || heroVisual?.matches(":hover")) return;
+  heroRotationTimer = window.setInterval(() => {
+    renderHeroProject((activeHeroProject + 1) % heroProjects.length);
+  }, heroRotationDelay);
+}
+
+function updateHeroRotationControl() {
+  if (!heroRotationButton || !heroRotationMessage) return;
+  if (reducedMotion) {
+    heroRotationButton.textContent = "切换项目";
+    heroRotationButton.setAttribute("aria-label", "手动切换主画面项目");
+    heroRotationButton.removeAttribute("aria-pressed");
+    heroRotationMessage.textContent = "已按系统设置关闭动效";
+    return;
+  }
+  heroRotationButton.textContent = heroRotationPaused ? "继续轮播" : "暂停轮播";
+  heroRotationButton.setAttribute("aria-label", heroRotationPaused ? "继续自动轮播" : "暂停自动轮播");
+  heroRotationButton.setAttribute("aria-pressed", String(heroRotationPaused));
+  heroRotationMessage.textContent = heroRotationPaused ? "自动交换已暂停" : "每7秒自动交换";
+}
+
+heroSecondary?.addEventListener("click", () => {
+  renderHeroProject((activeHeroProject + 1) % heroProjects.length);
+  startHeroRotation();
+});
+heroRotationButton?.addEventListener("click", () => {
+  if (reducedMotion) {
+    renderHeroProject((activeHeroProject + 1) % heroProjects.length);
+    return;
+  }
+  heroRotationPaused = !heroRotationPaused;
+  updateHeroRotationControl();
+  if (heroRotationPaused) stopHeroRotation();
+  else startHeroRotation();
+});
+heroVisual?.addEventListener("mouseenter", stopHeroRotation);
+heroVisual?.addEventListener("mouseleave", startHeroRotation);
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) stopHeroRotation();
+  else startHeroRotation();
+});
+updateHeroRotationControl();
+startHeroRotation();
+
 menuButton?.addEventListener("click", () => {
   const open = navigation.classList.toggle("open");
   menuButton.setAttribute("aria-expanded", String(open));
@@ -21,6 +133,13 @@ navigation?.querySelectorAll("a").forEach((link) => link.addEventListener("click
   menuButton?.setAttribute("aria-expanded", "false");
   menuButton?.setAttribute("aria-label", "打开导航");
 }));
+document.addEventListener("keydown", (event) => {
+  if (event.key !== "Escape" || !navigation?.classList.contains("open")) return;
+  navigation.classList.remove("open");
+  menuButton?.setAttribute("aria-expanded", "false");
+  menuButton?.setAttribute("aria-label", "打开导航");
+  menuButton?.focus();
+});
 
 const roleButtons = [...document.querySelectorAll(".role-list button")];
 const rolePanel = document.querySelector(".role-panel");
@@ -29,9 +148,11 @@ roleButtons.forEach((button, index) => button.addEventListener("click", () => {
   roleButtons.forEach((item, itemIndex) => {
     item.classList.toggle("active", itemIndex === index);
     item.setAttribute("aria-selected", String(itemIndex === index));
+    item.setAttribute("tabindex", itemIndex === index ? "0" : "-1");
   });
   rolePanel.innerHTML = "<p>" + role.count + "</p><h3>" + role.name + "</h3><strong>" + role.summary + "</strong><span>" + role.detail + "</span><div class=\"role-members\"><small>成员</small><p>" + role.members.join(" · ") + "</p></div><ul>" + role.outputs.map((item) => "<li>" + item + "</li>").join("") + "</ul>";
 }));
+roleButtons.forEach((button, index) => button.setAttribute("tabindex", index === 0 ? "0" : "-1"));
 roleButtons.forEach((button, index) => button.addEventListener("keydown", (event) => {
   if (!["ArrowDown", "ArrowUp", "Home", "End"].includes(event.key)) return;
   event.preventDefault();
@@ -44,11 +165,28 @@ roleButtons.forEach((button, index) => button.addEventListener("keydown", (event
   roleButtons[nextIndex].click();
 }));
 
+async function copyText(value) {
+  if (navigator.clipboard && window.isSecureContext) {
+    await navigator.clipboard.writeText(value);
+    return;
+  }
+  const input = document.createElement("textarea");
+  input.value = value;
+  input.setAttribute("readonly", "");
+  input.style.position = "fixed";
+  input.style.opacity = "0";
+  document.body.appendChild(input);
+  input.select();
+  const copied = document.execCommand("copy");
+  input.remove();
+  if (!copied) throw new Error("copy failed");
+}
+
 document.querySelectorAll("[data-copy]").forEach((button) => button.addEventListener("click", async () => {
   const value = button.dataset.copy;
   const defaultLabel = button.dataset.defaultLabel || "复制";
   try {
-    await navigator.clipboard.writeText(value);
+    await copyText(value);
     button.textContent = "已复制";
   } catch {
     button.textContent = "请手动复制";

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charSet="utf-8"/>
+<meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="preload" as="image" href="./assets/logo.webp"/>
-<link rel="preload" as="image" href="./assets/yingxi-main.jpg" fetchPriority="high"/>
+<link rel="preload" as="image" href="./assets/yingxi-main.jpg" fetchpriority="high"/>
 <link rel="preload" as="image" href="./assets/shenggu-poster.webp"/>
 <link rel="stylesheet" href="./styles.css">
 <title>大嘴鸭游戏 | Big Beak Duck Games</title>
@@ -69,7 +69,7 @@
 <div class="hero-actions">
 <a class="button primary" href="#projects">查看作品<span aria-hidden="true">↘</span>
 </a>
-<a class="button secondary" href="#showcase">播放宣传片</a>
+<a class="button secondary" href="#showcase" data-hero-showcase-link><span data-hero-link-label>播放《影戏》宣传片</span></a>
 </div>
 <dl class="hero-stats" aria-label="团队数据">
 <div>
@@ -86,20 +86,25 @@
 </div>
 </dl>
 </div>
-<div class="hero-visual" aria-label="大嘴鸭游戏项目画面">
-<div class="hero-main-shot">
-<img src="./assets/yingxi-main.jpg" alt="《影戏》主菜单与角色战斗画面" width="1536" height="864" fetchPriority="high"/>
-<div class="shot-label">
-<span>可玩 Demo 已完成</span>
-<strong>《影戏》</strong>
-</div>
-</div>
-<div class="hero-secondary-shot">
-<img src="./assets/shenggu-poster.webp" alt="《社鼓神像》官方宣传图" width="1672" height="941"/>
-<div>
-<span>可玩 Demo 已完成</span>
-<strong>《社鼓神像》</strong>
-</div>
+<div class="hero-visual" aria-label="《影戏》和《社鼓神像》项目轮播" data-active-project="yingxi">
+<figure class="hero-main-shot" aria-live="polite" aria-atomic="true">
+<img src="./assets/yingxi-main.jpg" alt="《影戏》主菜单与角色战斗画面" width="1536" height="864" fetchpriority="high" decoding="async" data-hero-main-image/>
+<figcaption class="shot-label">
+<span data-hero-main-status>可玩 Demo 已完成</span>
+<strong data-hero-main-title>《影戏》</strong>
+</figcaption>
+</figure>
+<button class="hero-secondary-shot" type="button" aria-label="将《社鼓神像》切换到主画面">
+<img src="./assets/shenggu-poster.webp" alt="《社鼓神像》官方宣传图" width="1672" height="941" decoding="async" data-hero-secondary-image/>
+<span class="hero-secondary-copy">
+<span data-hero-secondary-status>可玩 Demo 已完成</span>
+<strong data-hero-secondary-title>《社鼓神像》</strong>
+<small>点击切换到主画面</small>
+</span>
+</button>
+<div class="hero-carousel-tools" aria-label="作品轮播控制">
+<span class="hero-carousel-status"><i aria-hidden="true"></i><span data-hero-rotation-message>每7秒自动交换</span></span>
+<button class="hero-rotation-toggle" type="button" aria-pressed="false">暂停轮播</button>
 </div>
 <div class="hero-stamp" aria-hidden="true">
 <span>ORIGINAL</span>
@@ -198,7 +203,7 @@
 <p>从叙事开场到首领挑战，用74秒了解项目的视觉方向与基础玩法。</p>
 </div>
 <div class="video-shell">
-<video controls="" preload="none" poster="./assets/yingxi-main.jpg" playsInline="" aria-label="《影戏》项目宣传片">
+<video controls="" preload="none" poster="./assets/yingxi-main.jpg" playsinline aria-label="《影戏》项目宣传片">
 <source src="./assets/yingxi-trailer.mp4" type="video/mp4"/>你的浏览器不支持视频播放。</video>
 </div>
 <div class="frame-grid">
@@ -271,7 +276,7 @@
 <p>30秒宣传片完整呈现村规、牌位、社鼓、机关与神像追逐，把“不要按按钮”的命题落进可游玩的民俗恐怖体验。</p>
 </div>
 <div class="video-shell">
-<video controls="" preload="none" poster="./assets/shenggu-poster.webp" playsInline="" aria-label="《社鼓神像》项目宣传片">
+<video controls="" preload="none" poster="./assets/shenggu-poster.webp" playsinline aria-label="《社鼓神像》项目宣传片">
 <source src="./assets/shenggu-trailer.mp4" type="video/mp4"/>你的浏览器不支持视频播放。</video>
 </div>
 <div class="frame-grid">
