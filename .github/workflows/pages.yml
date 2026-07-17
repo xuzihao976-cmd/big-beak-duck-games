@@ -25,6 +25,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - name: Download trailer
         run: curl --fail --location --retry 3 --output assets/yingxi-trailer.mp4 https://big-beak-duck-games.xuzihao976.chatgpt.site/assets/yingxi-trailer.mp4
       - name: Upload site
