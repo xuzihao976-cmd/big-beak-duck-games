@@ -28,7 +28,9 @@ jobs:
         with:
           enablement: true
       - name: Download trailer
-        run: curl --fail --location --retry 3 --output assets/yingxi-trailer.mp4 https://big-beak-duck-games.xuzihao976.chatgpt.site/assets/yingxi-trailer.mp4
+        run: |
+          curl --fail --location --retry 3 --output assets/yingxi-trailer.mp4 https://big-beak-duck-games.xuzihao976.chatgpt.site/assets/yingxi-trailer.mp4
+          cat .video-parts/shenggu-trailer.part-* > assets/shenggu-trailer.mp4
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
