@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charSet="utf-8"/>
+<meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="preload" as="image" href="./assets/logo.webp"/>
-<link rel="preload" as="image" href="./assets/yingxi-main.jpg" fetchPriority="high"/>
+<link rel="preload" as="image" href="./assets/yingxi-main.jpg" fetchpriority="high"/>
 <link rel="preload" as="image" href="./assets/shenggu-poster.webp"/>
 <link rel="stylesheet" href="./styles.css">
 <title>大嘴鸭游戏 | Big Beak Duck Games</title>
-<meta name="description" content="大嘴鸭游戏是由13名学生组成的原创游戏创作团队，展示完整项目《影戏》和《社鼓神像》。"/>
+<meta name="description" content="大嘴鸭游戏是由14名学生组成的原创游戏创作团队，展示可玩Demo已完成的《影戏》和《社鼓神像》。"/>
 <meta name="keywords" content="大嘴鸭游戏,Big Beak Duck Games,学生游戏团队,独立游戏,影戏,社鼓神像"/>
 <meta name="author" content="大嘴鸭游戏"/>
 <meta name="creator" content="大嘴鸭游戏"/>
 <meta property="og:title" content="大嘴鸭游戏 | 把想法做成真正能玩的游戏"/>
-<meta property="og:description" content="13人学生游戏创作团队，展示完整项目《影戏》与《社鼓神像》。"/>
+<meta property="og:description" content="14人学生游戏创作团队，展示可玩Demo已完成的《影戏》与《社鼓神像》。"/>
 <meta property="og:site_name" content="大嘴鸭游戏"/>
 <meta property="og:type" content="website"/>
 <meta property="og:locale" content="zh_CN"/>
@@ -23,7 +23,7 @@
 <meta property="og:image:alt" content="大嘴鸭游戏项目《社鼓神像》"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content="大嘴鸭游戏 | 把想法做成真正能玩的游戏"/>
-<meta name="twitter:description" content="13人学生游戏创作团队，展示完整项目《影戏》与《社鼓神像》。"/>
+<meta name="twitter:description" content="14人学生游戏创作团队，展示可玩Demo已完成的《影戏》与《社鼓神像》。"/>
 <meta name="twitter:image" content="https://xuzihao976-cmd.github.io/big-beak-duck-games/assets/shenggu-poster.webp"/>
 <meta name="twitter:image:width" content="1672"/>
 <meta name="twitter:image:height" content="941"/>
@@ -62,19 +62,19 @@
 <main id="main-content">
 <section class="hero section" id="top">
 <div class="hero-copy">
-<p class="eyebrow">13人学生游戏创作团队</p>
+<p class="eyebrow">14人学生游戏创作团队</p>
 <h1>把想法做成<span>真正能玩的游戏。</span>
 </h1>
 <p class="hero-intro">大嘴鸭游戏专注于有鲜明视觉表达的原创游戏。我们覆盖美术、程序、建模、动画、地编、UI与音效——毕竟PPT不会自己变成游戏。</p>
 <div class="hero-actions">
 <a class="button primary" href="#projects">查看作品<span aria-hidden="true">↘</span>
 </a>
-<a class="button secondary" href="#showcase">播放宣传片</a>
+<a class="button secondary" href="#showcase" data-hero-showcase-link><span data-hero-link-label>播放《影戏》宣传片</span></a>
 </div>
 <dl class="hero-stats" aria-label="团队数据">
 <div>
 <dt>团队成员</dt>
-<dd>13</dd>
+<dd>14</dd>
 </div>
 <div>
 <dt>公开项目</dt>
@@ -86,20 +86,25 @@
 </div>
 </dl>
 </div>
-<div class="hero-visual" aria-label="大嘴鸭游戏项目画面">
-<div class="hero-main-shot">
-<img src="./assets/yingxi-main.jpg" alt="《影戏》主菜单与角色战斗画面" width="1536" height="864" fetchPriority="high"/>
-<div class="shot-label">
-<span>完整项目</span>
-<strong>《影戏》</strong>
-</div>
-</div>
-<div class="hero-secondary-shot">
-<img src="./assets/shenggu-poster.webp" alt="《社鼓神像》官方宣传图" width="1672" height="941"/>
-<div>
-<span>完整项目</span>
-<strong>《社鼓神像》</strong>
-</div>
+<div class="hero-visual" aria-label="《影戏》和《社鼓神像》项目轮播" data-active-project="yingxi">
+<figure class="hero-main-shot" aria-live="polite" aria-atomic="true">
+<img src="./assets/yingxi-main.jpg" alt="《影戏》主菜单与角色战斗画面" width="1536" height="864" fetchpriority="high" decoding="async" data-hero-main-image/>
+<figcaption class="shot-label">
+<span data-hero-main-status>可玩 Demo 已完成</span>
+<strong data-hero-main-title>《影戏》</strong>
+</figcaption>
+</figure>
+<button class="hero-secondary-shot" type="button" aria-label="将《社鼓神像》切换到主画面">
+<img src="./assets/shenggu-poster.webp" alt="《社鼓神像》官方宣传图" width="1672" height="941" decoding="async" data-hero-secondary-image/>
+<span class="hero-secondary-copy">
+<span data-hero-secondary-status>可玩 Demo 已完成</span>
+<strong data-hero-secondary-title>《社鼓神像》</strong>
+<small>点击切换到主画面</small>
+</span>
+</button>
+<div class="hero-carousel-tools" aria-label="作品轮播控制">
+<span class="hero-carousel-status"><i aria-hidden="true"></i><span data-hero-rotation-message>每7秒自动交换</span></span>
+<button class="hero-rotation-toggle" type="button" aria-pressed="false">暂停轮播</button>
 </div>
 <div class="hero-stamp" aria-hidden="true">
 <span>ORIGINAL</span>
@@ -127,7 +132,7 @@
 </button>
 <div class="project-content">
 <div class="project-number">01</div>
-<p class="project-status complete">完整项目</p>
+<p class="project-status complete">可玩 Demo 已完成</p>
 <h3>《影戏》</h3>
 <p class="project-lead">以皮影戏与脸谱为视觉核心的横版2D动作探索游戏。玩家穿梭于不同节日戏台，收集脸谱能力，修复被邪祟侵蚀的“千面图谱”。</p>
 <dl class="project-facts">
@@ -141,7 +146,7 @@
 </div>
 <div>
 <dt>项目状态</dt>
-<dd>Demo已完成</dd>
+<dd>可玩 Demo 已完成</dd>
 </div>
 <div>
 <dt>展示内容</dt>
@@ -159,7 +164,7 @@
 </button>
 <div class="project-content">
 <div class="project-number">02</div>
-<p class="project-status complete">完整项目</p>
+<p class="project-status complete">可玩 Demo 已完成</p>
 <h3>《社鼓神像》</h3>
 <p class="project-lead">围绕社鼓、神像、村规与时间回溯展开的3D中式民俗恐怖解谜。固定视角让玩家像观察监控一样辨认异常，在“不要触碰”的规则中寻找真正的出口。</p>
 <dl class="project-facts">
@@ -177,7 +182,7 @@
 </div>
 <div>
 <dt>项目状态</dt>
-<dd>Demo已完成</dd>
+<dd>可玩 Demo 已完成</dd>
 </div>
 <div>
 <dt>展示内容</dt>
@@ -198,7 +203,7 @@
 <p>从叙事开场到首领挑战，用74秒了解项目的视觉方向与基础玩法。</p>
 </div>
 <div class="video-shell">
-<video controls="" preload="none" poster="./assets/yingxi-main.jpg" playsInline="" aria-label="《影戏》项目宣传片">
+<video controls="" preload="none" poster="./assets/yingxi-main.jpg" playsinline aria-label="《影戏》项目宣传片">
 <source src="./assets/yingxi-trailer.mp4" type="video/mp4"/>你的浏览器不支持视频播放。</video>
 </div>
 <div class="frame-grid">
@@ -271,7 +276,7 @@
 <p>30秒宣传片完整呈现村规、牌位、社鼓、机关与神像追逐，把“不要按按钮”的命题落进可游玩的民俗恐怖体验。</p>
 </div>
 <div class="video-shell">
-<video controls="" preload="none" poster="./assets/shenggu-poster.webp" playsInline="" aria-label="《社鼓神像》项目宣传片">
+<video controls="" preload="none" poster="./assets/shenggu-poster.webp" playsinline aria-label="《社鼓神像》项目宣传片">
 <source src="./assets/shenggu-trailer.mp4" type="video/mp4"/>你的浏览器不支持视频播放。</video>
 </div>
 <div class="frame-grid">
@@ -297,7 +302,7 @@
 <div class="section-heading">
 <div>
 <p class="eyebrow">THE TEAM</p>
-<h2>十三个人，把不同专业接成一条制作线。</h2>
+<h2>十四个人，把不同专业接成一条制作线。</h2>
 </div>
 <p>我们按岗位明确职责，也让每个环节尽早同步。目标不只是“做过”，而是最终能展示、能播放、能交付。</p>
 </div>
@@ -318,7 +323,7 @@
 <button type="button" role="tab" aria-selected="false" aria-controls="role-panel" class="">
 <span>03</span>
 <strong>建模组</strong>
-<small>3人</small>
+<small>4人</small>
 <i aria-hidden="true">→</i>
 </button>
 <button type="button" role="tab" aria-selected="false" aria-controls="role-panel" class="">
@@ -345,6 +350,10 @@
 <h3>美术组</h3>
 <strong>视觉方向、角色概念与场景气氛</strong>
 <span>负责角色与场景概念、宣传视觉、色彩基调和最终风格统一，让不同环节的资产始终属于同一个世界。</span>
+<div class="role-members">
+<small>成员</small>
+<p>胡雪婷 · 肖依橙 · 詹益鹏 · 严培源</p>
+</div>
 <ul>
 <li>角色与场景概念</li>
 <li>宣传视觉</li>
@@ -359,9 +368,18 @@
 <h2>想聊项目、比赛或合作？欢迎联系大嘴鸭游戏。</h2>
 </div>
 <div class="contact-actions">
-<a href="mailto:xuzihao976@gmail.com">xuzihao976@gmail.com <span>↗</span>
-</a>
-<button type="button">复制邮箱</button>
+<div class="contact-item">
+<span><small>邮箱</small><a href="mailto:xuzihao976@gmail.com">xuzihao976@gmail.com ↗</a></span>
+<button type="button" data-copy="xuzihao976@gmail.com" data-default-label="复制邮箱">复制邮箱</button>
+</div>
+<div class="contact-item">
+<span><small>微信</small><strong>xzh22266</strong></span>
+<button type="button" data-copy="xzh22266" data-default-label="复制微信">复制微信</button>
+</div>
+<div class="contact-item">
+<span><small>QQ</small><strong>3487005700</strong></span>
+<button type="button" data-copy="3487005700" data-default-label="复制QQ">复制QQ</button>
+</div>
 </div>
 </section>
 <section class="easter-egg section" aria-label="网站彩蛋">
