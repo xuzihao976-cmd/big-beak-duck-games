@@ -16,7 +16,11 @@ menuButton?.addEventListener("click", () => {
   menuButton.setAttribute("aria-expanded", String(open));
   menuButton.setAttribute("aria-label", open ? "关闭导航" : "打开导航");
 });
-navigation?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => navigation.classList.remove("open")));
+navigation?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => {
+  navigation.classList.remove("open");
+  menuButton?.setAttribute("aria-expanded", "false");
+  menuButton?.setAttribute("aria-label", "打开导航");
+}));
 
 const roleButtons = [...document.querySelectorAll(".role-list button")];
 const rolePanel = document.querySelector(".role-panel");
@@ -27,6 +31,17 @@ roleButtons.forEach((button, index) => button.addEventListener("click", () => {
     item.setAttribute("aria-selected", String(itemIndex === index));
   });
   rolePanel.innerHTML = "<p>" + role.count + "</p><h3>" + role.name + "</h3><strong>" + role.summary + "</strong><span>" + role.detail + "</span><ul>" + role.outputs.map((item) => "<li>" + item + "</li>").join("") + "</ul>";
+}));
+roleButtons.forEach((button, index) => button.addEventListener("keydown", (event) => {
+  if (!["ArrowDown", "ArrowUp", "Home", "End"].includes(event.key)) return;
+  event.preventDefault();
+  let nextIndex = index;
+  if (event.key === "ArrowDown") nextIndex = (index + 1) % roleButtons.length;
+  if (event.key === "ArrowUp") nextIndex = (index - 1 + roleButtons.length) % roleButtons.length;
+  if (event.key === "Home") nextIndex = 0;
+  if (event.key === "End") nextIndex = roleButtons.length - 1;
+  roleButtons[nextIndex].focus();
+  roleButtons[nextIndex].click();
 }));
 
 const copyButton = document.querySelector(".contact-actions button");
@@ -49,6 +64,8 @@ forbiddenButton?.addEventListener("click", () => {
 
 function openLightbox(image) {
   if (!image) return;
+  document.querySelector(".lightbox")?.remove();
+  const previousFocus = document.activeElement;
   const overlay = document.createElement("div");
   overlay.className = "lightbox";
   overlay.setAttribute("role", "dialog");
@@ -57,15 +74,16 @@ function openLightbox(image) {
   document.body.appendChild(overlay);
   document.body.style.overflow = "hidden";
   const close = () => {
+    document.removeEventListener("keydown", onKeydown);
     overlay.remove();
     document.body.style.overflow = "";
+    if (previousFocus instanceof HTMLElement) previousFocus.focus();
   };
   overlay.addEventListener("click", (event) => { if (event.target === overlay || event.target.tagName === "BUTTON") close(); });
   overlay.querySelector("img").addEventListener("click", (event) => event.stopPropagation());
   const onKeydown = (event) => {
     if (event.key === "Escape") {
       close();
-      document.removeEventListener("keydown", onKeydown);
     }
   };
   document.addEventListener("keydown", onKeydown);
