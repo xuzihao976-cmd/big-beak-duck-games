@@ -1,5 +1,5 @@
 /*! tailwindcss v4.2.1 | MIT License | https://tailwindcss.com */
-@layer theme{:root,:host{--font-sans:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";--font-mono:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;--spacing:.25rem;--default-font-family:var(--font-sans);--default-mono-font-family:var(--font-mono)}
+@layer theme{:root,:host{--font-sans:"Microsoft YaHei","Microsoft YaHei UI","微软雅黑","PingFang SC","Noto Sans CJK SC","Noto Sans SC",Arial,sans-serif;--font-mono:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;--spacing:.25rem;--default-font-family:var(--font-sans);--default-mono-font-family:var(--font-mono)}
 }
 @layer base{*,:after,:before,::backdrop{box-sizing:border-box;border:0 solid;margin:0;padding:0}
 ::file-selector-button{box-sizing:border-box;border:0 solid;margin:0;padding:0}
@@ -62,7 +62,7 @@ button,input:where([type=button],[type=reset],[type=submit]){appearance:button}
 :root{--cream:#f4efe4;--paper:#fffaf0;--ink:#17130f;--muted:#6f675d;--orange:#f27718;--orange-dark:#a83b08;--line:#17130f29;--soft-line:#17130f17;--shadow:0 28px 80px #27190a24}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{background:var(--cream);color:var(--ink);font-family:"PingFang SC","Microsoft YaHei","PingFang SC", "Microsoft YaHei", sans-serif;margin:0}
+body{background:var(--cream);color:var(--ink);font-family:var(--font-sans);margin:0}
 button,a{font:inherit}
 button{color:inherit}
 a{color:inherit;text-decoration:none}
