@@ -8,22 +8,24 @@
 <link rel="preload" as="image" href="./assets/shenggu-poster.webp">
 <link rel="stylesheet" href="./styles.css">
 <title>大嘴鸭游戏 | Big Beak Duck Games</title>
-<meta name="description" content="大嘴鸭游戏是由14名学生组成的原创游戏创作团队，展示可玩Demo已完成的《影戏》和《社鼓神像》">
+<meta name="description" content="大嘴鸭游戏是由14名学生组成的原创游戏创作团队，展示《影戏》和《社鼓神像》两款已完成可玩 Demo 的原创项目，PC体验版本可联系获取">
 <meta name="keywords" content="大嘴鸭游戏,Big Beak Duck Games,学生游戏团队,独立游戏,影戏,社鼓神像">
 <meta name="author" content="大嘴鸭游戏">
 <meta name="creator" content="大嘴鸭游戏">
+<link rel="canonical" href="https://xuzihao976-cmd.github.io/big-beak-duck-games/">
 <meta property="og:title" content="大嘴鸭游戏 | 把想法做成真正能玩的游戏">
-<meta property="og:description" content="14人学生游戏创作团队，展示可玩Demo已完成的《影戏》与《社鼓神像》">
+<meta property="og:description" content="14人学生游戏创作团队，《影戏》与《社鼓神像》PC Demo可联系获取">
 <meta property="og:site_name" content="大嘴鸭游戏">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:url" content="https://xuzihao976-cmd.github.io/big-beak-duck-games/">
 <meta property="og:image" content="https://xuzihao976-cmd.github.io/big-beak-duck-games/assets/shenggu-poster.webp">
 <meta property="og:image:width" content="1672">
 <meta property="og:image:height" content="941">
 <meta property="og:image:alt" content="大嘴鸭游戏项目《社鼓神像》">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="大嘴鸭游戏 | 把想法做成真正能玩的游戏">
-<meta name="twitter:description" content="14人学生游戏创作团队，展示可玩Demo已完成的《影戏》与《社鼓神像》">
+<meta name="twitter:description" content="14人学生游戏创作团队，《影戏》与《社鼓神像》PC Demo可联系获取">
 <meta name="twitter:image" content="https://xuzihao976-cmd.github.io/big-beak-duck-games/assets/shenggu-poster.webp">
 <meta name="twitter:image:width" content="1672">
 <meta name="twitter:image:height" content="941">
@@ -68,9 +70,9 @@
 </h1>
 <p class="hero-intro">大嘴鸭游戏专注于有鲜明视觉表达的原创游戏。我们覆盖美术、程序、建模、动画、地编、UI与音效——毕竟PPT不会自己变成游戏</p>
 <div class="hero-actions">
-<a class="button primary" href="#projects">查看作品<span aria-hidden="true">↘</span>
+<a class="button primary" href="#projects" data-hero-project-link>查看作品<span aria-hidden="true">↘</span>
 </a>
-<a class="button secondary" href="#showcase" data-hero-showcase-link><span data-hero-link-label>播放《影戏》宣传片</span></a>
+<a class="button secondary" href="#contact" data-hero-demo-link data-demo-project="影戏"><span data-hero-demo-label>联系获取《影戏》Demo</span></a>
 </div>
 <dl class="hero-stats">
 <div>
@@ -88,7 +90,7 @@
 </dl>
 </div>
 <div class="hero-visual" data-active-project="yingxi">
-<figure class="hero-main-shot" aria-label="当前展示项目">
+<figure class="hero-main-shot" id="hero-project-panel" role="tabpanel" aria-labelledby="hero-tab-yingxi" aria-live="polite">
 <img src="./assets/yingxi-main.jpg" alt="《影戏》主菜单与角色战斗画面" width="1536" height="864" fetchpriority="high" decoding="async" data-hero-main-image>
 <figcaption class="shot-label">
 <span data-hero-main-status>可玩 Demo 已完成</span>
@@ -105,8 +107,8 @@
 </button>
 <div class="hero-carousel-tools" role="group" aria-label="作品轮播控制">
 <div class="hero-project-tabs" role="tablist" aria-label="选择首屏项目">
-<button class="active" type="button" role="tab" aria-selected="true" data-hero-project-index="0"><span>01</span>影戏</button>
-<button type="button" role="tab" aria-selected="false" data-hero-project-index="1"><span>02</span>社鼓神像</button>
+<button class="active" id="hero-tab-yingxi" type="button" role="tab" aria-selected="true" aria-controls="hero-project-panel" data-hero-project-index="0"><span>01</span>影戏</button>
+<button id="hero-tab-shenggu" type="button" role="tab" aria-selected="false" aria-controls="hero-project-panel" data-hero-project-index="1"><span>02</span>社鼓神像</button>
 </div>
 <button class="hero-rotation-toggle" type="button" aria-pressed="false"><span aria-hidden="true" class="rotation-icon">Ⅱ</span><span data-hero-rotation-label>暂停</span></button>
 <span class="sr-only" data-hero-rotation-message>每7秒自动交换</span>
@@ -131,10 +133,10 @@
 <p>两个项目代表了团队不同的创作方向：一边探索皮影与传统节日的二维表达，一边尝试固定视角下的三维民俗恐怖体验</p>
 </div>
 <div class="project-switcher" role="tablist" aria-label="选择项目介绍">
-<button class="active" type="button" role="tab" aria-selected="true" data-project-index="0"><span>01</span><strong>影戏</strong><small>2D动作探索</small></button>
-<button type="button" role="tab" aria-selected="false" data-project-index="1"><span>02</span><strong>社鼓神像</strong><small>3D民俗恐怖解谜</small></button>
+<button class="active" id="project-tab-yingxi" type="button" role="tab" aria-selected="true" aria-controls="project-panel-yingxi" data-project-index="0"><span>01</span><strong>影戏</strong><small>2D动作探索</small></button>
+<button id="project-tab-shenggu" type="button" role="tab" aria-selected="false" aria-controls="project-panel-shenggu" data-project-index="1"><span>02</span><strong>社鼓神像</strong><small>3D民俗恐怖解谜</small></button>
 </div>
-<article class="project-card project-yingxi" data-project-card="yingxi">
+<article class="project-card project-yingxi" id="project-panel-yingxi" role="tabpanel" aria-labelledby="project-tab-yingxi" data-project-card="yingxi">
 <button class="project-image-button" type="button" aria-label="放大查看《影戏》项目画面">
 <img src="./assets/yingxi-main.jpg" alt="《影戏》项目画面" width="1536" height="864" loading="lazy" decoding="async">
 <span>点击查看大图</span>
@@ -161,12 +163,30 @@
 <dt>展示内容</dt>
 <dd>宣传片 · 关卡长卷</dd>
 </div>
+<div>
+<dt>制作周期</dt>
+<dd>30天</dd>
+</div>
+<div>
+<dt>支持平台</dt>
+<dd>PC</dd>
+</div>
+<div>
+<dt>开发工具</dt>
+<dd>虚幻引擎 · Spine · Photoshop</dd>
+</div>
+<div>
+<dt>Demo时长</dt>
+<dd>约10分钟</dd>
+</div>
 </dl>
-<a class="text-link" href="#showcase">查看项目影像 <span>→</span>
-</a>
+<div class="project-links">
+<a class="demo-link" href="#contact" data-demo-project="影戏">联系获取 Demo <span>→</span></a>
+<a class="text-link" href="#showcase">观看宣传片 <span>→</span></a>
+</div>
 </div>
 </article>
-<article class="project-card project-shenggu" data-project-card="shenggu" hidden>
+<article class="project-card project-shenggu" id="project-panel-shenggu" role="tabpanel" aria-labelledby="project-tab-shenggu" data-project-card="shenggu" hidden>
 <button class="project-image-button" type="button" aria-label="放大查看《社鼓神像》项目画面">
 <img src="./assets/shenggu-poster.webp" alt="《社鼓神像》官方宣传图" width="1672" height="941" loading="lazy" decoding="async">
 <span>点击查看大图</span>
@@ -197,9 +217,27 @@
 <dt>展示内容</dt>
 <dd>宣传片 · 实机画面</dd>
 </div>
+<div>
+<dt>制作周期</dt>
+<dd>21天</dd>
+</div>
+<div>
+<dt>支持平台</dt>
+<dd>PC</dd>
+</div>
+<div>
+<dt>开发工具</dt>
+<dd>虚幻引擎 · Maya · 3ds Max · Photoshop</dd>
+</div>
+<div>
+<dt>Demo时长</dt>
+<dd>约20分钟</dd>
+</div>
 </dl>
-<a class="text-link" href="#shenggu-showcase">查看项目影像 <span>→</span>
-</a>
+<div class="project-links">
+<a class="demo-link" href="#contact" data-demo-project="社鼓神像">联系获取 Demo <span>→</span></a>
+<a class="text-link" href="#shenggu-showcase">观看宣传片 <span>→</span></a>
+</div>
 </div>
 </article>
 </section>
@@ -398,6 +436,11 @@
 <h2>想聊项目、比赛或合作？欢迎联系大嘴鸭游戏</h2>
 </div>
 <div class="contact-actions">
+<div class="demo-access-note" aria-live="polite">
+<span><small>DEMO 获取</small><strong data-demo-contact-title>获取《影戏》PC Demo</strong></span>
+<p data-demo-contact-message>体验版本暂不提供公开下载，请通过微信、QQ或邮箱联系我们</p>
+<button type="button" data-copy="你好，我想获取《影戏》PC Demo体验版本" data-default-label="复制申请文案" data-demo-copy>复制申请文案</button>
+</div>
 <div class="contact-item">
 <span><small>邮箱</small><a href="mailto:xuzihao976@gmail.com">xuzihao976@gmail.com ↗</a></span>
 <button type="button" data-copy="xuzihao976@gmail.com" data-default-label="复制邮箱">复制邮箱</button>

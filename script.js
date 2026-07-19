@@ -10,10 +10,12 @@ const roles = [
 const shell = document.querySelector(".site-shell");
 const menuButton = document.querySelector(".menu-button");
 const navigation = document.querySelector(".site-nav");
+const navShowcaseLink = navigation?.querySelector('a[href="#showcase"], a[href="#shenggu-showcase"]');
 
 const heroProjects = [
   {
     key: "yingxi",
+    name: "影戏",
     title: "《影戏》",
     status: "可玩 Demo 已完成",
     image: "./assets/yingxi-main.jpg",
@@ -22,6 +24,7 @@ const heroProjects = [
   },
   {
     key: "shenggu",
+    name: "社鼓神像",
     title: "《社鼓神像》",
     status: "可玩 Demo 已完成",
     image: "./assets/shenggu-poster.webp",
@@ -31,6 +34,7 @@ const heroProjects = [
 ];
 
 const heroVisual = document.querySelector(".hero-visual");
+const heroPanel = document.querySelector("#hero-project-panel");
 const heroMainImage = document.querySelector("[data-hero-main-image]");
 const heroMainStatus = document.querySelector("[data-hero-main-status]");
 const heroMainTitle = document.querySelector("[data-hero-main-title]");
@@ -38,8 +42,10 @@ const heroSecondary = document.querySelector(".hero-secondary-shot");
 const heroSecondaryImage = document.querySelector("[data-hero-secondary-image]");
 const heroSecondaryStatus = document.querySelector("[data-hero-secondary-status]");
 const heroSecondaryTitle = document.querySelector("[data-hero-secondary-title]");
-const heroShowcaseLink = document.querySelector("[data-hero-showcase-link]");
-const heroLinkLabel = document.querySelector("[data-hero-link-label]");
+const heroSection = document.querySelector(".hero");
+const heroProjectLink = document.querySelector("[data-hero-project-link]");
+const heroDemoLink = document.querySelector("[data-hero-demo-link]");
+const heroDemoLabel = document.querySelector("[data-hero-demo-label]");
 const heroRotationButton = document.querySelector(".hero-rotation-toggle");
 const heroRotationLabel = document.querySelector("[data-hero-rotation-label]");
 const heroRotationMessage = document.querySelector("[data-hero-rotation-message]");
@@ -49,6 +55,7 @@ const heroRotationDelay = 7000;
 let activeHeroProject = 0;
 let heroRotationTimer;
 let heroRotationPaused = false;
+let heroInView = true;
 
 function renderHeroProject(index, animate = true) {
   if (!heroVisual || !heroMainImage || !heroSecondaryImage) return;
@@ -65,19 +72,32 @@ function renderHeroProject(index, animate = true) {
   heroSecondaryStatus.textContent = secondary.status;
   heroSecondaryTitle.textContent = secondary.title;
   heroSecondary.setAttribute("aria-label", "将" + secondary.title + "切换到主画面");
-  heroShowcaseLink.href = active.showcase;
-  heroLinkLabel.textContent = "播放" + active.title + "宣传片";
+  if (heroDemoLink) heroDemoLink.dataset.demoProject = active.name;
+  if (heroDemoLabel) heroDemoLabel.textContent = "联系获取" + active.title + "Demo";
+  if (navShowcaseLink) navShowcaseLink.href = active.showcase;
   heroProjectTabs.forEach((tab, tabIndex) => {
     const selected = tabIndex === index;
     tab.classList.toggle("active", selected);
     tab.setAttribute("aria-selected", String(selected));
     tab.setAttribute("tabindex", selected ? "0" : "-1");
   });
+  heroPanel?.setAttribute("aria-labelledby", heroProjectTabs[index]?.id || "");
   if (animate) {
     heroVisual.classList.remove("hero-refresh");
     window.requestAnimationFrame(() => heroVisual.classList.add("hero-refresh"));
     window.setTimeout(() => heroVisual.classList.remove("hero-refresh"), 500);
   }
+}
+
+function selectProject(index, { animateHero = true, pauseRotation = false } = {}) {
+  renderHeroProject(index, animateHero);
+  setProjectCard(index);
+  setShowcaseProject(index);
+  prepareDemoRequest(heroProjects[index].name, false);
+  if (!pauseRotation) return;
+  heroRotationPaused = true;
+  updateHeroRotationControl();
+  stopHeroRotation();
 }
 
 function stopHeroRotation() {
@@ -87,23 +107,24 @@ function stopHeroRotation() {
 
 function startHeroRotation() {
   stopHeroRotation();
-  if (reducedMotion || heroRotationPaused || document.hidden || heroVisual?.matches(":hover")) return;
+  if (reducedMotion || heroRotationPaused || document.hidden || !heroInView || heroSection?.matches(":hover") || heroSection?.contains(document.activeElement)) return;
   heroRotationTimer = window.setInterval(() => {
-    renderHeroProject((activeHeroProject + 1) % heroProjects.length);
+    selectProject((activeHeroProject + 1) % heroProjects.length);
   }, heroRotationDelay);
 }
 
 function updateHeroRotationControl() {
   if (!heroRotationButton || !heroRotationMessage || !heroRotationLabel) return;
+  const rotationIcon = heroRotationButton.querySelector(".rotation-icon");
   if (reducedMotion) {
     heroRotationLabel.textContent = "切换";
+    if (rotationIcon) rotationIcon.textContent = "↔";
     heroRotationButton.setAttribute("aria-label", "手动切换主画面项目");
     heroRotationButton.removeAttribute("aria-pressed");
     heroRotationMessage.textContent = "已按系统设置关闭动效";
     return;
   }
   heroRotationLabel.textContent = heroRotationPaused ? "继续" : "暂停";
-  const rotationIcon = heroRotationButton.querySelector(".rotation-icon");
   if (rotationIcon) rotationIcon.textContent = heroRotationPaused ? "▶" : "Ⅱ";
   heroRotationButton.setAttribute("aria-label", heroRotationPaused ? "继续自动轮播" : "暂停自动轮播");
   heroRotationButton.setAttribute("aria-pressed", String(heroRotationPaused));
@@ -111,16 +132,10 @@ function updateHeroRotationControl() {
 }
 
 heroSecondary?.addEventListener("click", () => {
-  renderHeroProject((activeHeroProject + 1) % heroProjects.length);
-  heroRotationPaused = true;
-  updateHeroRotationControl();
-  stopHeroRotation();
+  selectProject((activeHeroProject + 1) % heroProjects.length, { pauseRotation: true });
 });
 heroProjectTabs.forEach((tab, index) => tab.addEventListener("click", () => {
-  renderHeroProject(index);
-  heroRotationPaused = true;
-  updateHeroRotationControl();
-  stopHeroRotation();
+  selectProject(index, { pauseRotation: true });
 }));
 heroProjectTabs.forEach((tab, index) => tab.addEventListener("keydown", (event) => {
   if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
@@ -132,7 +147,7 @@ heroProjectTabs.forEach((tab, index) => tab.addEventListener("keydown", (event) 
 }));
 heroRotationButton?.addEventListener("click", () => {
   if (reducedMotion) {
-    renderHeroProject((activeHeroProject + 1) % heroProjects.length);
+    selectProject((activeHeroProject + 1) % heroProjects.length);
     return;
   }
   heroRotationPaused = !heroRotationPaused;
@@ -140,12 +155,26 @@ heroRotationButton?.addEventListener("click", () => {
   if (heroRotationPaused) stopHeroRotation();
   else startHeroRotation();
 });
-heroVisual?.addEventListener("mouseenter", stopHeroRotation);
-heroVisual?.addEventListener("mouseleave", startHeroRotation);
+heroSection?.addEventListener("mouseenter", stopHeroRotation);
+heroSection?.addEventListener("mouseleave", startHeroRotation);
+heroSection?.addEventListener("focusin", stopHeroRotation);
+heroSection?.addEventListener("focusout", () => {
+  window.requestAnimationFrame(() => {
+    if (!heroSection.contains(document.activeElement)) startHeroRotation();
+  });
+});
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) stopHeroRotation();
   else startHeroRotation();
 });
+if ("IntersectionObserver" in window && heroSection) {
+  const heroObserver = new IntersectionObserver(([entry]) => {
+    heroInView = entry.isIntersecting;
+    if (heroInView) startHeroRotation();
+    else stopHeroRotation();
+  }, { threshold: .18 });
+  heroObserver.observe(heroSection);
+}
 renderHeroProject(0, false);
 updateHeroRotationControl();
 startHeroRotation();
@@ -201,7 +230,7 @@ if ("IntersectionObserver" in window) {
       .filter((entry) => entry.isIntersecting)
       .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
     if (!visible) return;
-    const activeTarget = visible.target.matches("[data-showcase-key]") ? "#showcase" : "#" + visible.target.id;
+    const activeTarget = "#" + visible.target.id;
     navLinks.forEach((link) => {
       const active = link.getAttribute("href") === activeTarget;
       link.classList.toggle("active", active);
@@ -226,12 +255,14 @@ function setProjectCard(index, focus = false) {
   if (focus) projectTabs[index]?.focus();
 }
 
-projectTabs.forEach((tab, index) => tab.addEventListener("click", () => setProjectCard(index)));
+projectTabs.forEach((tab, index) => tab.addEventListener("click", () => selectProject(index, { pauseRotation: true })));
 projectTabs.forEach((tab, index) => tab.addEventListener("keydown", (event) => {
   if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
   event.preventDefault();
   const direction = event.key === 'ArrowRight' ? 1 : -1;
-  setProjectCard((index + direction + projectTabs.length) % projectTabs.length, true);
+  const nextIndex = (index + direction + projectTabs.length) % projectTabs.length;
+  selectProject(nextIndex, { pauseRotation: true });
+  projectTabs[nextIndex]?.focus();
 }));
 
 const showcaseSections = [...document.querySelectorAll("[data-showcase-key]")];
@@ -254,23 +285,52 @@ function setShowcaseProject(index, scrollIntoView = false) {
 }
 
 showcaseButtons.forEach((button) => button.addEventListener("click", () => {
-  setShowcaseProject(Number(button.dataset.showcaseIndex), true);
+  const index = Number(button.dataset.showcaseIndex);
+  selectProject(index, { pauseRotation: true });
+  window.requestAnimationFrame(() => showcaseSections[index]?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" }));
 }));
 showcaseButtons.forEach((button) => button.addEventListener("keydown", (event) => {
   if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
   event.preventDefault();
   const direction = event.key === 'ArrowRight' ? 1 : -1;
   const nextIndex = (Number(button.dataset.showcaseIndex) + direction + showcaseSections.length) % showcaseSections.length;
-  setShowcaseProject(nextIndex, true);
+  selectProject(nextIndex, { pauseRotation: true });
+  window.requestAnimationFrame(() => showcaseSections[nextIndex]?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" }));
   window.requestAnimationFrame(() => showcaseSections[nextIndex]?.querySelector(`[data-showcase-index="${nextIndex}"]`)?.focus());
 }));
 
 document.querySelectorAll('a[href="#showcase"], a[href="#shenggu-showcase"]').forEach((link) => {
-  link.addEventListener("click", () => setShowcaseProject(link.getAttribute("href") === "#shenggu-showcase" ? 1 : 0));
+  link.addEventListener("click", () => selectProject(link.getAttribute("href") === "#shenggu-showcase" ? 1 : 0, { pauseRotation: true }));
 });
+
+heroProjectLink?.addEventListener("click", () => selectProject(activeHeroProject, { pauseRotation: true }));
 
 setProjectCard(0);
 setShowcaseProject(0);
+
+const demoContactTitle = document.querySelector("[data-demo-contact-title]");
+const demoContactMessage = document.querySelector("[data-demo-contact-message]");
+const demoCopyButton = document.querySelector("[data-demo-copy]");
+const demoAccessNote = document.querySelector(".demo-access-note");
+let demoHighlightTimer;
+
+function prepareDemoRequest(projectName, highlight = true) {
+  if (demoContactTitle) demoContactTitle.textContent = "获取《" + projectName + "》PC Demo";
+  if (demoContactMessage) demoContactMessage.textContent = "体验版本暂不提供公开下载，请通过微信、QQ或邮箱联系我们，并注明项目名称";
+  if (demoCopyButton) demoCopyButton.dataset.copy = "你好，我想获取《" + projectName + "》PC Demo体验版本";
+  if (!demoAccessNote || !highlight) return;
+  window.clearTimeout(demoHighlightTimer);
+  demoAccessNote.classList.remove("is-targeted");
+  window.requestAnimationFrame(() => demoAccessNote.classList.add("is-targeted"));
+  demoHighlightTimer = window.setTimeout(() => demoAccessNote.classList.remove("is-targeted"), 2600);
+}
+
+document.querySelectorAll("[data-demo-project]").forEach((link) => link.addEventListener("click", () => {
+  const projectName = link.dataset.demoProject;
+  const index = heroProjects.findIndex((project) => project.name === projectName);
+  if (index >= 0) selectProject(index, { pauseRotation: true });
+  prepareDemoRequest(projectName);
+}));
 
 const roleButtons = [...document.querySelectorAll(".role-list button")];
 const rolePanel = document.querySelector(".role-panel");
@@ -396,6 +456,13 @@ if (cursorBeam && finePointer && !reducedMotion) {
     cursorBeam.style.transform = `translate3d(${currentX}px,${currentY}px,0) translate(-50%,-50%)`;
     previousX = currentX;
     previousY = currentY;
+    if (Math.abs(targetX - currentX) + Math.abs(targetY - currentY) < .2) {
+      currentX = targetX;
+      currentY = targetY;
+      cursorBeam.style.transform = `translate3d(${currentX}px,${currentY}px,0) translate(-50%,-50%)`;
+      beamFrame = undefined;
+      return;
+    }
     beamFrame = window.requestAnimationFrame(animateBeam);
   };
 
@@ -410,7 +477,11 @@ if (cursorBeam && finePointer && !reducedMotion) {
     cursorBeam.classList.add("visible");
     if (!beamFrame) beamFrame = window.requestAnimationFrame(animateBeam);
   }, { passive: true });
-  document.documentElement.addEventListener("mouseleave", () => cursorBeam.classList.remove("visible"));
+  document.documentElement.addEventListener("mouseleave", () => {
+    cursorBeam.classList.remove("visible");
+    if (beamFrame) window.cancelAnimationFrame(beamFrame);
+    beamFrame = undefined;
+  });
   document.documentElement.addEventListener("mouseenter", () => {
     if (targetX >= 0) cursorBeam.classList.add("visible");
   });
@@ -463,6 +534,17 @@ function openLightbox(trigger) {
     if (event.key === "Escape") close();
     if (event.key === "ArrowLeft") renderImage(currentIndex - 1);
     if (event.key === "ArrowRight") renderImage(currentIndex + 1);
+    if (event.key === "Tab") {
+      const focusable = [overlay.querySelector(".lightbox-close"), previousButton, nextButton].filter((item) => item && !item.hidden);
+      const currentFocusIndex = focusable.indexOf(document.activeElement);
+      if (event.shiftKey && currentFocusIndex <= 0) {
+        event.preventDefault();
+        focusable[focusable.length - 1]?.focus();
+      } else if (!event.shiftKey && currentFocusIndex === focusable.length - 1) {
+        event.preventDefault();
+        focusable[0]?.focus();
+      }
+    }
   };
   document.addEventListener("keydown", onKeydown);
   let swipeStartX = 0;
