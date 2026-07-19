@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="duck-mark-title">
+  <title id="duck-mark-title">大嘴鸭游戏图标</title>
+  <rect width="128" height="128" rx="28" fill="#fffaf0"/>
+  <path d="M42 30h42c15 0 24 9 24 24v25c0 15-9 24-24 24H48c-15 0-24-9-24-24V58" fill="none" stroke="#17130f" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M27 49c-11-7-20-5-24 1 5 7 14 9 25 6 7-2 8-5-1-7Z" fill="#f27718"/>
+  <path d="M28 57c-10 4-18 3-24-2 5 10 15 14 25 9 7-3 6-8-1-7Z" fill="#e85f09"/>
+  <path d="M52 52h8" fill="none" stroke="#17130f" stroke-width="7" stroke-linecap="round"/>
+  <path d="M58 74v18M49 83h18" fill="none" stroke="#17130f" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="84" cy="83" r="4.5" fill="#17130f"/>
+  <circle cx="99" cy="83" r="4.5" fill="#17130f"/>
+  <path d="M49 116h37l-7-13H56l-7 13Z" fill="#fffaf0" stroke="#17130f" stroke-width="7" stroke-linejoin="round"/>
+</svg>
