@@ -1,10 +1,10 @@
 const roles = [
-  { count: "4人", name: "美术组", members: ["胡雪婷", "肖依橙", "詹益鹏", "严培源"], summary: "视觉方向、角色概念与场景气氛", detail: "负责角色与场景概念、宣传视觉、色彩基调和最终风格统一，让不同环节的资产始终属于同一个世界", outputs: ["角色与场景概念", "宣传视觉", "风格规范"] },
-  { count: "1人", name: "程序", members: ["邓俊浩"], summary: "交互逻辑、系统接入与版本打包", detail: "负责核心玩法、关卡事件、UI接入、版本打包与技术问题排查，确保创意最终能够运行和交付", outputs: ["核心交互", "事件系统", "版本交付"] },
-  { count: "4人", name: "建模组", members: ["罗子洋", "刘伟", "李金辉", "李嘉帆"], summary: "角色、场景模块与道具资产", detail: "负责角色、怪物、环境模块和关键道具的三维制作，并完成规范整理与引擎导入", outputs: ["角色模型", "环境资产", "引擎规范"] },
-  { count: "2人", name: "动画组", members: ["徐梓皓", "黄耀燊"], summary: "角色动作、技能反馈与关键演出", detail: "负责角色和怪物动作、技能表现、镜头演出与动画落地，让玩法反馈更清晰、角色更有生命力", outputs: ["角色动作", "技能动画", "镜头演出"] },
-  { count: "2人", name: "地编组", members: ["莫泳强", "成佳豪"], summary: "关卡搭建、玩家动线与光影氛围", detail: "负责关卡空间、场景摆放、光照气氛和玩家动线，把分散资产组织成可探索、可游玩的完整体验", outputs: ["关卡空间", "光影氛围", "玩家动线"] },
-  { count: "1人", name: "UI / 音效", members: ["柯皓轩"], summary: "界面反馈、声音节奏与展示包装", detail: "负责界面视觉、按钮反馈、环境音效和最终展示包装，保证信息清楚并建立统一的体验节奏", outputs: ["界面视觉", "声音反馈", "展示包装"] }
+  { count: "4人", name: "美术组", members: ["胡雪婷", "肖依橙", "詹益鹏", "严培源"], summary: "视觉方向 角色概念与场景气氛", detail: "负责角色与场景概念 宣传视觉 色彩基调和最终风格统一 让不同环节的资产始终属于同一个世界", outputs: ["角色与场景概念", "宣传视觉", "风格规范"] },
+  { count: "1人", name: "程序", members: ["邓俊浩"], summary: "交互逻辑 系统接入与版本打包", detail: "负责核心玩法 关卡事件 UI接入 版本打包与技术问题排查 确保创意最终能够运行和交付", outputs: ["核心交互", "事件系统", "版本交付"] },
+  { count: "4人", name: "建模组", members: ["罗子洋", "刘伟", "李金辉", "李嘉帆"], summary: "角色 场景模块与道具资产", detail: "负责角色 怪物 环境模块和关键道具的三维制作 并完成规范整理与引擎导入", outputs: ["角色模型", "环境资产", "引擎规范"] },
+  { count: "2人", name: "动画组", members: ["徐梓皓", "黄耀燊"], summary: "角色动作 技能反馈与关键演出", detail: "负责角色和怪物动作 技能表现 镜头演出与动画落地 让玩法反馈更清晰 角色更有生命力", outputs: ["角色动作", "技能动画", "镜头演出"] },
+  { count: "2人", name: "地编组", members: ["莫泳强", "成佳豪"], summary: "关卡搭建 玩家动线与光影氛围", detail: "负责关卡空间 场景摆放 光照气氛和玩家动线 把分散资产组织成可探索 可游玩的完整体验", outputs: ["关卡空间", "光影氛围", "玩家动线"] },
+  { count: "1人", name: "UI / 音效", members: ["柯皓轩"], summary: "界面反馈 声音节奏与展示包装", detail: "负责界面视觉 按钮反馈 环境音效和最终展示包装 保证信息清楚并建立统一的体验节奏", outputs: ["界面视觉", "声音反馈", "展示包装"] }
 ];
 
 const shell = document.querySelector(".site-shell");
@@ -316,8 +316,8 @@ let demoHighlightTimer;
 
 function prepareDemoRequest(projectName, highlight = true) {
   if (demoContactTitle) demoContactTitle.textContent = "获取《" + projectName + "》PC Demo";
-  if (demoContactMessage) demoContactMessage.textContent = "体验版本暂不提供公开下载，请通过微信、QQ或邮箱联系我们，并注明项目名称";
-  if (demoCopyButton) demoCopyButton.dataset.copy = "你好，我想获取《" + projectName + "》PC Demo体验版本";
+  if (demoContactMessage) demoContactMessage.textContent = "体验版本暂不提供公开下载 请通过微信 QQ或邮箱联系我们 并注明项目名称";
+  if (demoCopyButton) demoCopyButton.dataset.copy = "你好 我想获取《" + projectName + "》PC Demo体验版本";
   if (!demoAccessNote || !highlight) return;
   window.clearTimeout(demoHighlightTimer);
   demoAccessNote.classList.remove("is-targeted");
@@ -395,7 +395,7 @@ document.querySelectorAll("[data-copy]").forEach((button) => button.addEventList
     showToast(defaultLabel.replace("复制", "") + "已复制到剪贴板");
   } catch {
     button.textContent = "请手动复制";
-    showToast("复制失败，请手动选择内容");
+    showToast("复制失败 请手动选择内容");
   }
   window.setTimeout(() => {
     button.textContent = defaultLabel;
@@ -412,7 +412,7 @@ document.querySelectorAll(".video-shell").forEach((shell) => {
     try {
       await video.play();
     } catch {
-      showToast("浏览器阻止了自动播放，请使用视频控制栏");
+      showToast("浏览器阻止了自动播放 请使用视频控制栏");
     }
   });
   video.addEventListener("play", () => playButton.classList.add("is-hidden"));
